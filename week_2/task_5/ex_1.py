@@ -17,7 +17,7 @@ dishes = (
 
 # Print the tuple in a single line
 print("Your favorite Nigerian dishes are:")
-print(", ".join(dishes))
+print(dishes[0], dishes[1], dishes[2], sep=', ')
 
 # Print each dish on a new line
 print("\n".join(dishes))
