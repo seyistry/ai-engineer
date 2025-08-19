@@ -32,17 +32,27 @@ candidate['first_choice'] = input(
     "Is UNILAG your first choice institution? (yes/no): ").strip().lower() == "yes"
 
 
-# Get O'Level results for English and Mathematics explicitly
-candidate['english'] = int(input("Enter your English score: "))
-candidate['math'] = int(input("Enter your Mathematics score: "))
+# Define valid credit pass grades
+passed_grades = ("A1", "B2", "B3", "C4", "C5", "C6")
+# Define fail grades (less than 50)
+fail_grades = ("E8", "F9")
 
-# Get scores for other subjects (any number)
-other_subjects = [int(x) for x in input(
-    "Enter your other O'Level subject scores (comma-separated): ").split(",")]
+#Grades
+grade_list = "e.g., A1, B2, B3, C4, C5, C6, E8, F9"
+
+# Get O'Level results for English and Mathematics explicitly
+candidate['english'] = input(
+    f"Enter your English grade ({grade_list}): ").strip().upper()
+candidate['math'] = input(
+    f"Enter your Mathematics grade ({grade_list}): ").strip().upper()
+
+# Get grades for other subjects (any number)
+other_subjects = [x.strip().upper() for x in input(
+    "Enter your other O'Level subject grades (comma-separated, e.g., B3, C5, A1, E8, F9): ").split(",")]
 candidate['other_subjects'] = other_subjects
 
-# Combine all O'Level scores
-all_scores = [candidate['english'], candidate['math']] + \
+# Combine all O'Level grades
+all_grades = [candidate['english'], candidate['math']] + \
     candidate['other_subjects']
 
 # Check admission eligibility
@@ -53,9 +63,11 @@ elif candidate['utme_score'] < 200:
     eligible = False
 elif not candidate['first_choice']:
     eligible = False
-elif candidate['english'] < 50 or candidate['math'] < 50:
+elif candidate['english'] not in passed_grades or candidate['math'] not in passed_grades:
     eligible = False
-elif len(all_scores) < 5 or sum(1 for x in all_scores if x >= 50) < 5:
+elif len(all_grades) < 5 or sum(1 for x in all_grades if x in passed_grades) < 5:
+    eligible = False
+elif any(x in fail_grades for x in all_grades):
     eligible = False
 
 if eligible:
