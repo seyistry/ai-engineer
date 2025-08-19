@@ -28,14 +28,19 @@ candidate['name'] = input("Enter your name: ")
 candidate['age'] = int(input("Enter your age: "))
 candidate['utme_score'] = int(input("Enter your UTME score: "))
 
+
 # Get O'Level results for English and Mathematics explicitly
 candidate['english'] = int(input("Enter your English score: "))
 candidate['math'] = int(input("Enter your Mathematics score: "))
 
-# Get scores for three other subjects
+# Get scores for other subjects (any number)
 other_subjects = [int(x) for x in input(
-    "Enter your other three O'Level subject scores (comma-separated): ").split(",")]
+    "Enter your other O'Level subject scores (comma-separated): ").split(",")]
 candidate['other_subjects'] = other_subjects
+
+# Combine all O'Level scores
+all_scores = [candidate['english'], candidate['math']] + \
+    candidate['other_subjects']
 
 # Check admission eligibility
 eligible = True
@@ -45,7 +50,7 @@ elif candidate['utme_score'] < 200:
     eligible = False
 elif candidate['english'] < 50 or candidate['math'] < 50:
     eligible = False
-elif len(candidate['other_subjects']) < 3 or any(x < 50 for x in candidate['other_subjects']):
+elif len(all_scores) < 5 or sum(1 for x in all_scores if x >= 50) < 5:
     eligible = False
 
 if eligible:
