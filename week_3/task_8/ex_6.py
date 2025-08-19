@@ -23,10 +23,13 @@ Candidates who meet the departmental cut-off marks are offered admission.
 # Create an empty dictionary to store candidate information
 candidate = {}
 
+
 # Get candidate details
 candidate['name'] = input("Enter your name: ")
 candidate['age'] = int(input("Enter your age: "))
 candidate['utme_score'] = int(input("Enter your UTME score: "))
+candidate['first_choice'] = input(
+    "Is UNILAG your first choice institution? (yes/no): ").strip().lower() == "yes"
 
 
 # Get O'Level results for English and Mathematics explicitly
@@ -47,6 +50,8 @@ eligible = True
 if candidate['age'] < 16:
     eligible = False
 elif candidate['utme_score'] < 200:
+    eligible = False
+elif not candidate['first_choice']:
     eligible = False
 elif candidate['english'] < 50 or candidate['math'] < 50:
     eligible = False
