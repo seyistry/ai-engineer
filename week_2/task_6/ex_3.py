@@ -13,7 +13,11 @@
 seats = set(range(1, 51))
 while True:
     print("Available seats:", seats)
-    seat = int(input("Enter a seat number to book (1-50) or 0 to exit: "))
+    try:
+        seat = int(input("Enter a seat number to book (1-50) or 0 to exit: "))
+    except ValueError as error:
+        print(f"Error: {error}")
+        continue
     if seat == 0:
         break
     if seat in seats:
